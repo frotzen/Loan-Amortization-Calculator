@@ -25,7 +25,6 @@ function createTable(amount, term, rate) {
   //   Balance: float
   // }
 
-  // unpack loan terms from loanObj
   // make copies by value of amount
   let balance = amount.valueOf();
   let totalCost = parseFloat(amount.valueOf());
@@ -45,29 +44,61 @@ function createTable(amount, term, rate) {
     principal = payment - interest;
     balance -= principal;
 
-    tableRow["Payment"] = payment.toFixed(2);
-    tableRow["Principal"] = principal.toFixed(2);
-    tableRow["Interest"] = interest.toFixed(2);
-    tableRow["TotalInterest"] = interestTotal.toFixed(2);
-    tableRow["Balance"] = Math.abs(balance).toFixed(2);
+    tableRow["Payment"] = payment.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    tableRow["Principal"] = principal.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    tableRow["Interest"] = interest.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    tableRow["TotalInterest"] = interestTotal.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    tableRow["Balance"] = Math.abs(balance).toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
     amortizationTable.push(tableRow);
   }
 
-  totalCost += parseFloat(interestTotal);
-  document.getElementById("monthlyPayment").innerHTML = `$${payment.toFixed(
-    2
-  )}`;
+  // format and display Loan Summary section
+  document.getElementById(
+    "totalPrincipal"
+  ).innerHTML = `${totalCost.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  })}`;
 
-  document.getElementById("totalPrincipal").innerHTML = `$${amount}`;
+  totalCost += parseFloat(interestTotal);
+  document.getElementById(
+    "monthlyPayment"
+  ).innerHTML = `${payment.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  })}`;
 
   document.getElementById(
     "totalInterest"
-  ).innerHTML = `$${interestTotal.toFixed(2)}`;
+  ).innerHTML = `${interestTotal.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  })}`;
 
-  document.getElementById("totalCost").innerHTML = `$${totalCost.toFixed(2)}`;
+  document.getElementById("totalCost").innerHTML = `${totalCost.toLocaleString(
+    "en-US",
+    { style: "currency", currency: "USD" }
+  )}`;
 
   return amortizationTable;
 }
+
+// monthlyPayment.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 function displayTable(tableArray) {
   const template = document.getElementById("amortTemplate");

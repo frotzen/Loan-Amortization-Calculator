@@ -84,10 +84,12 @@
 
     <main class="content container">
       <div class="row">
-        <div class="col-12 col-lg-4 border border-2 border-secondary">
-          <form class="loanForm">
+        <div
+          class="col-12 col-lg-4 ms-lg-2 me-lg-4 border border-2 border-secondary"
+        >
+          <form class="mb-4">
             <div class="mt-2">
-              <label class="form-label-sm" for="loanAmount">Loan Amount</label>
+              <label class="form-label-sm" for="loanAmount">Loan Amount </label>
               <input
                 id="loanAmount"
                 class="form-control-sm"
@@ -98,7 +100,7 @@
               />
             </div>
             <div class="mt-2">
-              <label class="form-label-sm" for="loanTerm">Term (Months)</label>
+              <label class="form-label-sm" for="loanTerm">Term (Months) </label>
               <input
                 id="loanTerm"
                 class="form-control-sm"
@@ -108,7 +110,7 @@
               />
             </div>
             <div class="mt-2">
-              <label class="form-label-sm" for="loanRate">Interest Rate</label>
+              <label class="form-label-sm" for="loanRate">Interest Rate </label>
               <input
                 id="loanRate"
                 class="form-control-sm"
@@ -118,7 +120,7 @@
                 step=".01"
               />
             </div>
-            <div class="mt-2 text-end">
+            <div class="mt-2 mb-2 text-end">
               <button
                 id="loanCalc"
                 class="btn btn-secondary mt-4"
@@ -129,7 +131,7 @@
             </div>
           </form>
         </div>
-        <div class="col-12 col-lg-8 border border-2 border-secondary">
+        <div class="col-12 col-lg-7 ms-lg-3 border border-2 border-secondary">
           <h2 class="text-center mb-4">Your Monthly Payments</h2>
           <h2 id="monthlyPayment" class="text-center mb-5">$0.00</h2>
           <div class="row">
@@ -141,14 +143,14 @@
             <div id="totalInterest" class="col-6 text-end pe-5">$0.00</div>
           </div>
           <div class="row">
-            <div class="col-6 text-start ps-5">Total Cost</div>
+            <div class="col-6 mb-2 text-start ps-5">Total Cost</div>
             <div id="totalCost" class="col-6 text-end pe-5">$0.00</div>
           </div>
         </div>
       </div>
       <div class="row mt-2">
         <div class="col-12">
-          <div class="table-responsive mt-2">
+          <div class="table-responsive">
             <table class="table table-striped border border-2 border-secondary">
               <thead class="table-primary">
                 <tr>
