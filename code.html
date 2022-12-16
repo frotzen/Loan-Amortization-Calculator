@@ -69,7 +69,7 @@
                 <a class="nav-link" href="/code.html">The Code</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">The Repo</a>
+                <a class="nav-link" href="https://github.com/frotzen/LoanAmortizationCalculator">The Repo</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="">About</a>
@@ -90,21 +90,163 @@
         <div class="col-12 col-lg-8">
           <pre class="line-numbers">
                 <code class="language-js">
-                    function displayMessage() {
-
-                        let myMessage = document.getElementById("message").value;
-                        alert(myMessage);
-
-                      }                      
+                  function createAmortization() {
+                    let amount = document.getElementById("loanAmount").value;
+                    let term = document.getElementById("loanTerm").value;
+                    let rate = document.getElementById("loanRate").value;
+                  
+                    let aTable = createTable(amount, term, rate);
+                    displayTable(aTable);
+                  }                      
                 </code>
             </pre>
         </div>
         <!-- Code Docs -->
         <div class="col-12 col-lg-4">
-          <p>The code is structured in one function</p>
-          <h5>displayMessage</h5>
-          <p>Prints out the message</p>
+          <p>The heart of presentation in the calculator is the table.</p>
+          <h5>createAmortization</h5>
+          <p>Three variables amount, term, and rate, are defined with values returned by getElementById, respectively.</p>
+          <p>A fourth variable, aTable, is assigned the amortization table object as returned by createTable(amount, term, and rate).</p>
+          <p>Finally, displayTable(aTable) is called to display the table.</p>
         </div>
+        <p></p>
+        <p></p>
+        <hr>
+        <!-- Code Editor -->
+        <div class="col-12 col-lg-8">
+          <pre class="line-numbers">
+                <code class="language-js">
+                  function createTable(amount, term, rate) {
+                    let amortizationTable = [];
+                    // tableRow object:
+                    // {
+                    //   Month: int,
+                    //   Payment: float,
+                    //   Principal: float,
+                    //   Interest: float,
+                    //   TotalInterest: float
+                    //   Balance: float
+                    // }
+                  
+                    // make copies by value of amount
+                    let balance = amount.valueOf();
+                    let totalCost = parseFloat(amount.valueOf());
+                    let payment = (balance * (rate / 1200)) / (1 - (1 + rate / 1200) ** -term);
+                    let principal = 0;
+                    let interest = 0;
+                    let interestTotal = 0;
+                  
+                    // iterate through amortizationTable and push calcualted tableRow
+                    //    for each month
+                    // return an amortization array of row objects
+                    for (let i = 0; i < term; i++) {
+                      let tableRow = {};
+                      tableRow["Month"] = i + 1;
+                      interest = balance * (rate / 1200);
+                      interestTotal += interest;
+                      principal = payment - interest;
+                      balance -= principal;
+                  
+                      tableRow["Payment"] = payment.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      });
+                      tableRow["Principal"] = principal.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      });
+                      tableRow["Interest"] = interest.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      });
+                      tableRow["TotalInterest"] = interestTotal.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      });
+                      tableRow["Balance"] = Math.abs(balance).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      });
+                      amortizationTable.push(tableRow);
+                    }
+                  
+                    // format and display Loan Summary section
+                    document.getElementById(
+                      "totalPrincipal"
+                    ).innerHTML = `${totalCost.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}`;
+                  
+                    totalCost += parseFloat(interestTotal);
+                    document.getElementById(
+                      "monthlyPayment"
+                    ).innerHTML = `${payment.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}`;
+                  
+                    document.getElementById(
+                      "totalInterest"
+                    ).innerHTML = `${interestTotal.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}`;
+                  
+                    document.getElementById("totalCost").innerHTML = `${totalCost.toLocaleString(
+                      "en-US",
+                      { style: "currency", currency: "USD" }
+                    )}`;
+                  
+                    return amortizationTable;
+                  }                     
+                </code>
+            </pre>
+        </div>
+        <!-- Code Docs -->
+        <div class="col-12 col-lg-4">
+          <p>While the workhorse of this app could be broken into smaller functions, it achieves a single purpose.  It creates and returns a table object.</p>
+          <h5>createTable</h5>
+          <p>Rather than comment about each statement, comments were left in to explain the overall purpose of each section.  In short, variables are defined and monthly armortization values are push()ed into the amortizationTable as tableRow.  Finally, the amortizationTable is returned.</p>
+        </div>
+        <p></p>
+        <p></p>
+        <hr>
+        <!-- Code Editor -->
+        <div class="col-12 col-lg-8">
+          <pre class="line-numbers">
+            <code class="language-js">
+              function displayTable(tableArray) {
+                const template = document.getElementById("amortTemplate");
+                const aData = document.getElementById("amortData");
+                aData.innerHTML = "";
+                let length = tableArray.length;
+                for (let i = 0; i < length; i++) {
+                  const amortRow = document.importNode(template.content, true);
+                  const amortCols = amortRow.querySelectorAll("td");
+                  amortCols[0].textContent = tableArray[i].Month;
+                  amortCols[1].textContent = tableArray[i].Payment;
+                  amortCols[2].textContent = tableArray[i].Principal;
+                  amortCols[3].textContent = tableArray[i].Interest;
+                  amortCols[4].textContent = tableArray[i].TotalInterest;
+                  amortCols[5].textContent = tableArray[i].Balance;
+                  aData.appendChild(amortRow);
+                }
+              }                     
+            </code>
+        </pre>
+      </div>
+      <!-- Code Docs -->
+      <div class="col-12 col-lg-4">
+      <p>Lastly, the table is displayed in the application page through the power of iteration.</p>
+      <h5>displayTable</h5>
+      <p>To send all the data into the application page, the #id of the template element and the #id
+        of the tbody element are assigned to template and aData variables, respectively.  These are
+       effectively the working names used to reference each of the elements.  Iterating over the length
+      of tableArray allows for assign values to amortRow and using appendChild() on aData cyclically.</p>
+    </div>
+    <p></p>
+    <p></p>
       </div>
     </main>
 

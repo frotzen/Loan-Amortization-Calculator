@@ -4,8 +4,8 @@
   --eb-dark-color: #292929;
   --eb-light-color: #dfe3e4;
 
-  --eb-navbar-toggler-glow: rgba(255, 153, 59, 0.5);
-  --eb-navbar-toggler-color: #ff993b;
+  --eb-navbar-toggler-glow: rgba(0, 251, 255, 0.752);
+  --eb-navbar-toggler-color: #00f7ff7e;
 }
 
 html,
@@ -47,7 +47,7 @@ footer {
 }
 
 #mainNav button {
-  border-color: var(--eb-secondary-color);
+  border-color: var(--eb-navbar-toggler-color);
 }
 
 .navbar-toggler {
