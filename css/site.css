@@ -39,7 +39,7 @@ footer {
 }
 
 .socialIcons:hover {
-  color: var(--eb-secondary-color);
+  color: var(--eb-navbar-toggler-glow);
 }
 
 #mainNav {
